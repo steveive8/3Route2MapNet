@@ -1,3 +1,3 @@
 # ThreeRoute2MapNet
 
-### Image Classification model for fast and light capacity for small to medium scale classification.
+### Fast and Light Image Classification model for small to medium scale classification.
