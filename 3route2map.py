@@ -9,18 +9,18 @@ class ThreeRoute2Map(nn.Module):
 
         self.threeroute = ThreeRoute(cfg)
         self.leftwing = nn.Sequential(
-            TwoMap(cfg, 0),
-            TwoMap(cfg, 1),
-            TwoMap(cfg, 2),
-            TwoMap(cfg, 3),
-            TwoMap(cfg, 4, True)
+            ToMap(cfg, 0),
+            ToMap(cfg, 1),
+            ToMap(cfg, 2),
+            ToMap(cfg, 3),
+            ToMap(cfg, 4, True)
         )
         self.rightwing = nn.Sequential(
-            TwoMap(cfg, 0),
-            TwoMap(cfg, 1),
-            TwoMap(cfg, 2),
-            TwoMap(cfg, 3),
-            TwoMap(cfg, 4, True)
+            ToMap(cfg, 0),
+            ToMap(cfg, 1),
+            ToMap(cfg, 2),
+            ToMap(cfg, 3),
+            ToMap(cfg, 4, True)
         )
 
         self.classifier = nn.Sequential(
@@ -125,9 +125,9 @@ class ThreeRoute(nn.Module):
         
         
 
-class TwoMap(nn.Module):
+class ToMap(nn.Module):
     def __init__(self, cfg, index, cat = False):
-        super(TwoMap, self).__init__()
+        super(ToMap, self).__init__()
         
         self.cat = cat
         self.sequences = []
