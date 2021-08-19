@@ -80,9 +80,9 @@ class ThreeRoute(nn.Module):
         self.w1 = self.links[0]
         self.w2 = self.links[1]
         self.w3 = self.links[2]
-        # self.w4 = self.links[3]
-        # self.w5 = self.links[4]
-        # self.w6 = self.links[5]
+        self.w4 = self.links[3]
+        self.w5 = self.links[4]
+        self.w6 = self.links[5]
 
     def make_links(self):
         for i in range(6):
@@ -111,13 +111,9 @@ class ThreeRoute(nn.Module):
         for sq in sq_outs:
             pool_outs.append(nn.AdaptiveAvgPool2d((min_size, min_size))(sq))
 
-        # out1 = torch.cat([pool_outs[0] * self.links[0], pool_outs[1] * self.links[1]], 1)#1x3 => 1
-        # out2 = torch.cat([pool_outs[2] * self.links[2], pool_outs[0] * self.links[3]], 1)#1x5 => 3
-        # out3 = torch.cat([pool_outs[1] * self.links[4], pool_outs[2] * self.links[5]], 1)#3x5 => 5
-
-        out1 = torch.cat([pool_outs[0], pool_outs[1]], 1) * self.links[0]#1x3 => 1
-        out2 = torch.cat([pool_outs[1], pool_outs[2]], 1) * self.links[1]#1x5 => 3
-        out3 = torch.cat([pool_outs[2], pool_outs[0]], 1) * self.links[2]#3x5 => 5
+        out1 = torch.cat([pool_outs[0] * self.links[0], pool_outs[1] * self.links[1]], 1)#1x3 => 1
+        out2 = torch.cat([pool_outs[2] * self.links[2], pool_outs[0] * self.links[3]], 1)#1x5 => 3
+        out3 = torch.cat([pool_outs[1] * self.links[4], pool_outs[2] * self.links[5]], 1)#3x5 => 5
         #print(out1.shape) #out_channel * 2
 
         return [out1, out2, out3], id
@@ -155,12 +151,12 @@ class ToMap(nn.Module):
         self.w1 = self.links[0]
         self.w2 = self.links[1]
         self.w3 = self.links[2]
-        #self.w4 = self.links[3]
-        # self.w5 = self.links[4]
-        # self.w6 = self.links[5]
-        # self.w7 = self.links[6]
-        # self.w8 = self.links[7]
-        # self.w9 = self.links[8]
+        self.w4 = self.links[3]
+        self.w5 = self.links[4]
+        self.w6 = self.links[5]
+        self.w7 = self.links[6]
+        self.w8 = self.links[7]
+        self.w9 = self.links[8]
 
     def make_links(self):
         for i in range(9):
@@ -204,14 +200,9 @@ class ToMap(nn.Module):
 
         #print(pool_outs[0].shape, pool_outs[1].shape, pool_outs[2].shape, id.shape)
 
-        # out1 = torch.cat([pool_outs[0] * self.links[0], pool_outs[1] * self.links[1], id * self.links[6]], 1)#1x3 => 1
-        # out2 = torch.cat([pool_outs[2] * self.links[2], pool_outs[0] * self.links[3], id * self.links[7]], 1)#1x5 => 3
-        # out3 = torch.cat([pool_outs[1] * self.links[4], pool_outs[2] * self.links[5], id * self.links[8]], 1)#3x5 => 5
-
-        out1 = torch.cat([pool_outs[0], pool_outs[1], id], 1) * self.links[0] #1x3 => 1
-        out2 = torch.cat([pool_outs[2], pool_outs[0], id], 1) * self.links[1]#1x5 => 3
-        out3 = torch.cat([pool_outs[1], pool_outs[2], id], 1) * self.links[2]#3x5 => 5
-        
+        out1 = torch.cat([pool_outs[0] * self.links[0], pool_outs[1] * self.links[1], id * self.links[6]], 1)#1x3 => 1
+        out2 = torch.cat([pool_outs[2] * self.links[2], pool_outs[0] * self.links[3], id * self.links[7]], 1)#1x5 => 3
+        out3 = torch.cat([pool_outs[1] * self.links[4], pool_outs[2] * self.links[5], id * self.links[8]], 1)#3x5 => 5
         #print(out3.shape)#cfg[index + 1] in_channel * 3
         if self.cat:
             out = torch.cat([out1, out2, out3, id], 1)
