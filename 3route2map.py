@@ -105,11 +105,11 @@ class ThreeRoute(nn.Module):
 
         min_size = min([sq_outs[0].size(-1), sq_outs[1].size(-1), sq_outs[2].size(-1)])
 
-        id = nn.AdaptiveAvgPool2d((min_size, min_size))(x)
+        id = nn.AdaptiveMaxPool2d((min_size, min_size))(x)
 
         pool_outs = []
         for sq in sq_outs:
-            pool_outs.append(nn.AdaptiveAvgPool2d((min_size, min_size))(sq))
+            pool_outs.append(nn.AdaptiveMaxPool2d((min_size, min_size))(sq))
 
         out1 = torch.cat([pool_outs[0] * self.links[0], pool_outs[1] * self.links[1]], 1)#1x3 => 1
         out2 = torch.cat([pool_outs[2] * self.links[2], pool_outs[0] * self.links[3]], 1)#1x5 => 3
@@ -190,13 +190,13 @@ class ToMap(nn.Module):
         #print(sq_outs[0].size(-1), sq_outs[1].size(-1), sq_outs[2].size(-1))
         min_size = min([sq_outs[0].size(-1), sq_outs[1].size(-1), sq_outs[2].size(-1)])
 
-        id = nn.AdaptiveAvgPool2d((min_size, min_size))(id)
+        id = nn.AdaptiveMaxPool2d((min_size, min_size))(id)
         id = self.id_conv(id)
         
 
         pool_outs = []
         for sq in sq_outs:
-            pool_outs.append(nn.AdaptiveAvgPool2d((min_size, min_size))(sq))
+            pool_outs.append(nn.AdaptiveMaxPool2d((min_size, min_size))(sq))
 
         #print(pool_outs[0].shape, pool_outs[1].shape, pool_outs[2].shape, id.shape)
 
